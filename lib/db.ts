@@ -1,88 +1,41 @@
-import { GraphQLClient } from 'graphql-request';
+import { kv } from '@vercel/kv';
 
 export interface UserCache {
-    _id: string,
+    _id: string, // Vercel KVではこのIDは不要ですが、既存の型定義を維持します
     name: string,
     atcoderRate: number | null,
     codeforcesRate: number | null,
     timestamp: string,
 }
 
+// Vercel KVではキーで直接値を取得するため、DBRecordは単純化します
 export interface DBRecord {
     user: UserCache | null,
 }
 
-const GRAPHQL_ENDPOINT = 'https://graphql.fauna.com/graphql';
-const client = new GraphQLClient(GRAPHQL_ENDPOINT, {
-    headers: {
-        authorization: `Bearer ${process.env.FAUNADB_SECRET}`,
-    },
-});
-
-const fetchQuery = `\
-query FetchUser($name: String!) {
-    user: findUserByName(name: $name) {
-        _id
-        name
-        atcoderRate
-        codeforcesRate
-        timestamp
-    }
-}
-`;
-
-export async function getUserCache(name: string) {
-    let data: DBRecord = await client.request(fetchQuery, { name });
-    return data;
+// ユーザー名をキーとしてキャッシュを取得
+export async function getUserCache(name: string): Promise<DBRecord> {
+    const user = await kv.get<UserCache>(name);
+    return { user };
 }
 
-const registerQuery = `\
-mutation RegisterUser($name: String!, $atcoderRate: Int, $codeforcesRate: Int, $timestamp: Time!) {
-    createUser(data: {
-      name: $name
-      atcoderRate: $atcoderRate
-      codeforcesRate: $codeforcesRate
-      timestamp: $timestamp
-    }) {
-      name
-      atcoderRate
-      codeforcesRate
-      timestamp
-    }
-}
-`;
-
+// ユーザー名をキーとしてキャッシュを保存（登録）
 export async function registerUserCache(name: string, atcoderRate: number | null, codeforcesRate: number | null) {
-    await client.request(registerQuery, {
+    const userCache: UserCache = {
+        _id: name, // キーをIDとして利用
         name,
         atcoderRate,
         codeforcesRate,
         timestamp: new Date().toISOString(),
-    });
+    };
+    await kv.set(name, userCache);
 }
 
-const updateQuery = `\
-mutation UpdateUser($id: ID!, $name: String!, $atcoderRate: Int, $codeforcesRate: Int, $timestamp: Time!) {
-    updateUser(id: $id, data: {
-        name: $name
-        atcoderRate: $atcoderRate
-        codeforcesRate: $codeforcesRate
-        timestamp: $timestamp
-    }) {
-        name
-        atcoderRate
-        codeforcesRate
-        timestamp
-    }
-}
-`;
-
+// ユーザー名をキーとしてキャッシュを保存（更新）
 export async function updateUserCache(cache: UserCache) {
-    await client.request(updateQuery, {
-        id: cache._id,
-        name: cache.name,
-        atcoderRate: cache.atcoderRate,
-        codeforcesRate: cache.codeforcesRate,
+    const updatedCache: UserCache = {
+        ...cache,
         timestamp: new Date().toISOString(),
-    });
+    };
+    await kv.set(cache.name, updatedCache);
 }
