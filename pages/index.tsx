@@ -1,20 +1,27 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import Head from 'next/head';
 import { Container, Navbar } from 'react-bootstrap';
 
 import UsernameInput from '../components/UsernameInput';
 import Generator from '../components/Generator';
 
-const API_ORIGIN = '';
-
 const AtCoderURL = (name: string) => `https://atcoder.jp/users/${name}`;
 const CodeforcesURL = (name: string) => `https://codeforces.com/profile/${name}`;
-const dataLink = (type: string, name: string) => API_ORIGIN + `/api/${type}/json/${name}`;
 const shieldsioLink = (url: string) => `https://img.shields.io/endpoint?url=${encodeURIComponent(url)}`;
 
 export default function() {
     const [username, setUsername] = useState('tourist');
+    const [apiOrigin, setApiOrigin] = useState('');
+
+    useEffect(() => {
+        if (window) {
+            setApiOrigin(window.location.origin);
+        }
+    }, []);
+
+    const dataLink = (type: string, name: string) => apiOrigin + `/api/${type}/json/${name}`;
     const onSubmit = useCallback((name: string) => setUsername(name), [setUsername]);
+
     return (
         <>
             <Head>
@@ -38,8 +45,12 @@ export default function() {
                 </p>
                 <UsernameInput onSubmit={onSubmit} />
                 <hr />
-                <Generator title="AtCoder" tip={username} link={AtCoderURL(username)} badge={shieldsioLink(dataLink('atcoder', username))} />
-                <Generator title="Codeforces" tip={username} link={CodeforcesURL(username)} badge={shieldsioLink(dataLink('codeforces', username))} />
+                {apiOrigin && (
+                    <>
+                        <Generator title="AtCoder" tip={username} link={AtCoderURL(username)} badge={shieldsioLink(dataLink('atcoder', username))} />
+                        <Generator title="Codeforces" tip={username} link={CodeforcesURL(username)} badge={shieldsioLink(dataLink('codeforces', username))} />
+                    </>
+                )}
             </Container>
         </>
     );
