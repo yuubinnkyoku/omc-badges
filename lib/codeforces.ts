@@ -12,12 +12,25 @@ const ratingHistroyURL = (name: string) => `https://codeforces.com/api/user.rati
 
 export async function fetchCodeforcesRate(name: string): Promise<number | null> {
     try {
-        let data: RatingHistory;
-        console.log(`Fetching '${name}'...`);
-        data = (await axios.get(ratingHistroyURL(name))).data;
-        if(data.result.length === 0) return null;
-        return data.result[data.result.length - 1].newRating;
-    } catch {
+        const url = ratingHistroyURL(name);
+        console.log(`Fetching Codeforces rate for '${name}' from ${url}`);
+        const response = await axios.get<RatingHistory>(url);
+        const data = response.data;
+
+        if (data.result.length === 0) {
+            console.log(`Codeforces data for '${name}' is empty.`);
+            return null;
+        }
+        
+        const latestRating = data.result[data.result.length - 1].newRating;
+        console.log(`Successfully fetched Codeforces rate for '${name}': ${latestRating}`);
+        return latestRating;
+    } catch (error) {
+        if (error instanceof Error) {
+            console.error(`Error fetching Codeforces rate for '${name}':`, error.message);
+        } else {
+            console.error(`An unknown error occurred while fetching Codeforces rate for '${name}'.`);
+        }
         return null;
     }
 }
