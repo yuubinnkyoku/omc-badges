@@ -30,7 +30,9 @@ export async function registerUserCache(name: string, atcoderRate: number | null
         codeforcesRate,
         timestamp: new Date().toISOString(),
     };
+    console.log(`Registering cache for: ${name}`);
     await redis.set(name, userCache);
+    console.log(`Successfully registered cache for: ${name}`);
 }
 
 // ユーザー名をキーとしてキャッシュを保存（更新）
@@ -39,5 +41,7 @@ export async function updateUserCache(cache: UserCache) {
         ...cache,
         timestamp: new Date().toISOString(),
     };
+    console.log(`Updating cache for: ${cache.name}`);
     await redis.set(cache.name, updatedCache);
+    console.log(`Successfully updated cache for: ${cache.name}`);
 }
