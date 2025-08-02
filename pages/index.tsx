@@ -5,7 +5,7 @@ import { Container, Navbar } from 'react-bootstrap';
 import UsernameInput from '../components/UsernameInput';
 import Generator from '../components/Generator';
 
-const API_ORIGIN = 'https://atcoder-badges.now.sh';
+const API_ORIGIN = '';
 
 const AtCoderURL = (name: string) => `https://atcoder.jp/users/${name}`;
 const CodeforcesURL = (name: string) => `https://codeforces.com/profile/${name}`;
