@@ -14,7 +14,7 @@ const shieldsioLink = (url: string) => `https://img.shields.io/endpoint?url=${en
 
 export default function() {
     const [username, setUsername] = useState('tourist');
-    const onSubmit = useCallback((name) => setUsername(name), [setUsername]);
+    const onSubmit = useCallback((name: string) => setUsername(name), [setUsername]);
     return (
         <>
             <Head>
@@ -32,9 +32,9 @@ export default function() {
                     Codeforcesにも対応しました。
                 </p>
                 <p>
-                    このサイトのGitHubリポジトリ: <a href="https://github.com/makutamoto/atcoder-badges" target="_blank" rel="noreferrer">https://github.com/makutamoto/atcoder-badges</a>
+                    このサイトのGitHubリポジトリ: <a href="https://github.com/makutamoto/atcoder-badges" target="_blank" rel="noopener noreferrer">https://github.com/makutamoto/atcoder-badges</a>
                     <br />
-                    作者Twitter: <a href="https://twitter.com/makutamoto" target="_blank" rel="noreferrer">https://twitter.com/makutamoto</a>
+                    作者Twitter: <a href="https://twitter.com/makutamoto" target="_blank" rel="noopener noreferrer">https://twitter.com/makutamoto</a>
                 </p>
                 <UsernameInput onSubmit={onSubmit} />
                 <hr />
