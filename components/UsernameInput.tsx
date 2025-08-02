@@ -4,7 +4,7 @@ import { Button, Form, FormControl, InputGroup } from 'react-bootstrap';
 export interface UsernameInputProps {
     onSubmit: (value: string) => void,
 }
-export default function(props: UsernameInputProps) {
+export default function UsernameInput(props: UsernameInputProps) {
     let [username, setUsername] = useState('tourist');
     let onChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
         setUsername(e.currentTarget.value);
@@ -18,9 +18,7 @@ export default function(props: UsernameInputProps) {
             <Form.Group>
                 <InputGroup className="mb-3">
                     <FormControl placeholder="Username" value={username} onChange={onChange} />
-                    <InputGroup.Append>
-                        <Button type="submit" variant="secondary">生成</Button>
-                    </InputGroup.Append>
+                    <Button type="submit" variant="secondary">生成</Button>
                 </InputGroup>
             </Form.Group>
         </Form>

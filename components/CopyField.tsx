@@ -7,16 +7,12 @@ export interface CopyFieldProps {
     title: string,
     value: string,
 }
-export default function(props: CopyFieldProps) {
+export default function CopyField(props: CopyFieldProps) {
     return (
         <InputGroup className="mb-3">
-            <InputGroup.Prepend>
-                <InputGroup.Text className={styles.title}>{props.title}</InputGroup.Text>
-            </InputGroup.Prepend>
+            <InputGroup.Text className={styles.title}>{props.title}</InputGroup.Text>
             <FormControl readOnly value={props.value} />
-            <InputGroup.Append>
-                <Button variant="secondary" onClick={() => copy(props.value)}>Copy</Button>
-            </InputGroup.Append>
+            <Button variant="secondary" onClick={() => copy(props.value)}>Copy</Button>
         </InputGroup>
     );
 }

@@ -6,7 +6,7 @@ export interface GeneratorProps {
     link: string,
     badge: string,
 }
-export default function(props: GeneratorProps) {
+export default function Generator(props: GeneratorProps) {
     return (
         <>
             <div className="my-4">
