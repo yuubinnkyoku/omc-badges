@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 
-import { fetchCodeforcesRate } from '../../../../lib/codeforces';
+import { getUserRateWithCache } from '../../../../lib/cache';
 
 const colors = {
     unrated: '#000000',
@@ -40,7 +40,8 @@ const json = (rate: number | null) => ({
 
 export default async function (req: NextApiRequest, res: NextApiResponse) {
     let username = req.query.id as string;
-    let rate = await fetchCodeforcesRate(username);
+    const rateWithCache = await getUserRateWithCache(username);
+    const rate = rateWithCache ? rateWithCache.codeforces : null;
     res.setHeader('Content-type', 'application/json');
     res.status(200).send(JSON.stringify(json(rate)));
 }

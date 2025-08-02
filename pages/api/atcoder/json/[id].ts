@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 
-import { fetchAtCoderRate } from '../../../../lib/atcoder';
+import { getUserRateWithCache } from '../../../../lib/cache';
 
 const colors = [
     '#808080', // gray
@@ -23,7 +23,8 @@ const json = (rate: number | null) => ({
 
 export default async function (req: NextApiRequest, res: NextApiResponse) {
     let username = req.query.id as string;
-    let rate = await fetchAtCoderRate(username);
+    const rateWithCache = await getUserRateWithCache(username);
+    const rate = rateWithCache ? rateWithCache.atcoder : null;
     res.setHeader('Content-type', 'application/json');
     res.status(200).send(JSON.stringify(json(rate)));
 }
