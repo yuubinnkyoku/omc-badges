@@ -7,6 +7,7 @@ import Generator from '../components/Generator';
 
 const AtCoderURL = (name: string) => `https://atcoder.jp/users/${name}`;
 const CodeforcesURL = (name: string) => `https://codeforces.com/profile/${name}`;
+const OmcURL = (name: string) => `https://onlinemathcontest.com/user/${name}`;
 const shieldsioLink = (url: string) => `https://img.shields.io/endpoint?url=${encodeURIComponent(url)}`;
 
 export default function() {
@@ -25,23 +26,21 @@ export default function() {
     return (
         <>
             <Head>
-                <title>AtCoder Badges</title>
-                <meta name="description" content="AtCoderのレートと色を表示するバッジを生成します。Codeforcesにも対応しました。" />
+                <title>AtCoder/Codeforces/OMC Badges</title>
+                <meta name="description" content="AtCoder、Codeforces、OMCのレートを表示するバッジを生成します。" />
             </Head>
             <Navbar bg="dark" variant="dark">
-                <Navbar.Brand>AtCoder Badges</Navbar.Brand>
+                <Navbar.Brand>AtCoder/Codeforces/OMC Badges</Navbar.Brand>
             </Navbar>
             <Container>
-                <h1 className="mt-4">AtCoder Badges</h1>
+                <h1 className="mt-4">AtCoder/Codeforces/OMC Badges</h1>
                 <p>
-                    このサイトはAtCoderのレートと色を表示するバッジを生成します。
-                    <br />
-                    Codeforcesにも対応しました。
+                    このサイトはAtCoder、Codeforces、OMCのレートを表示するバッジを生成します。
                 </p>
                 <p>
-                    このサイトのGitHubリポジトリ: <a href="https://github.com/makutamoto/atcoder-badges" target="_blank" rel="noopener noreferrer">https://github.com/makutamoto/atcoder-badges</a>
+                    このサイトのGitHubリポジトリ: <a href="https://github.com/yuubinnkyoku/omc-badges" target="_blank" rel="noopener noreferrer">https://github.com/yuubinnkyoku/omc-badges</a>
                     <br />
-                    作者Twitter: <a href="https://twitter.com/makutamoto" target="_blank" rel="noopener noreferrer">https://twitter.com/makutamoto</a>
+                    作者: <a href="https://github.com/yuubinnkyoku" target="_blank" rel="noopener noreferrer">yuubinnkyoku</a>
                 </p>
                 <UsernameInput onSubmit={onSubmit} />
                 <hr />
@@ -49,6 +48,7 @@ export default function() {
                     <>
                         <Generator title="AtCoder" tip={username} link={AtCoderURL(username)} badge={shieldsioLink(dataLink('atcoder', username))} />
                         <Generator title="Codeforces" tip={username} link={CodeforcesURL(username)} badge={shieldsioLink(dataLink('codeforces', username))} />
+                        <Generator title="OMC" tip={username} link={OmcURL(username)} badge={shieldsioLink(dataLink('omc', username))} />
                     </>
                 )}
             </Container>
