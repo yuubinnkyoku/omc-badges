@@ -67,7 +67,6 @@ export default function() {
                 <Form.Group>
                     <Form.Label>Style</Form.Label>
                     <Form.Control as="select" value={style} onChange={e => setStyle(e.target.value)}>
-                        <option value="">default</option>
                         <option value="flat">flat</option>
                         <option value="flat-square">flat-square</option>
                         <option value="plastic">plastic</option>
