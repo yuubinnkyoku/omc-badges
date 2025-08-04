@@ -18,9 +18,8 @@ export const fetchOmcRate = async (id: string): Promise<number | null> => {
     const html = await fetchHTML(url);
     const $ = cheerio.load(html);
 
-    // レート情報が含まれるテーブルの行を探す
-    const rateRow = $('th:contains("Rating")').parent();
-    const rateText = rateRow.find('td').text().trim();
+    // ID 'rating' を持つpタグ内のbタグからレートを取得
+    const rateText = $('#rating b').text().trim();
     const rate = parseInt(rateText, 10);
 
     if (isNaN(rate)) {
