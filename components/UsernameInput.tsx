@@ -5,7 +5,7 @@ export interface UsernameInputProps {
     onSubmit: (value: string) => void,
 }
 export default function UsernameInput(props: UsernameInputProps) {
-    let [username, setUsername] = useState('tourist');
+    let [username, setUsername] = useState('simasima');
     let onChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
         setUsername(e.currentTarget.value);
     }, [setUsername]);

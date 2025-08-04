@@ -9,7 +9,7 @@ const OmcURL = (name: string) => `https://onlinemathcontest.com/user/${name}`;
 const shieldsioLink = (url: string) => `https://img.shields.io/endpoint?url=${encodeURIComponent(url)}`;
 
 export default function() {
-    const [username, setUsername] = useState('tourist');
+    const [username, setUsername] = useState('simasima');
     const [apiOrigin, setApiOrigin] = useState('');
 
     useEffect(() => {
@@ -18,7 +18,13 @@ export default function() {
         }
     }, []);
 
-    const dataLink = (type: string, name: string) => apiOrigin + `/api/${type}/json/${name}`;
+    const dataLink = (type: string, name: string) => {
+        const url = new URL(apiOrigin + `/api/${type}/json/${name}`);
+        if (url.protocol === 'http:') {
+            url.protocol = 'https:';
+        }
+        return url.toString();
+    };
     const onSubmit = useCallback((name: string) => setUsername(name), [setUsername]);
 
     return (
