@@ -11,6 +11,7 @@ const shieldsioLink = (url: string) => `https://img.shields.io/endpoint?url=${en
 export default function() {
     const [username, setUsername] = useState('simasima');
     const [apiOrigin, setApiOrigin] = useState('');
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         if (window) {
@@ -25,7 +26,14 @@ export default function() {
         }
         return url.toString();
     };
-    const onSubmit = useCallback((name: string) => setUsername(name), [setUsername]);
+    const onSubmit = useCallback((name: string) => {
+        setIsLoading(true);
+        setUsername(name);
+    }, [setUsername]);
+
+    const onBadgeLoad = useCallback(() => {
+        setIsLoading(false);
+    }, []);
 
     return (
         <>
@@ -50,7 +58,14 @@ export default function() {
                 <hr />
                 {apiOrigin && (
                     <>
-                        <Generator title="OMC" tip={username} link={OmcURL(username)} badge={shieldsioLink(dataLink('omc', username))} />
+                        <Generator
+                            title="OMC"
+                            tip={username}
+                            link={OmcURL(username)}
+                            badge={shieldsioLink(dataLink('omc', username))}
+                            isLoading={isLoading}
+                            onBadgeLoad={onBadgeLoad}
+                        />
                     </>
                 )}
             </Container>
