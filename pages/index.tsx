@@ -5,7 +5,7 @@ import { Container, Navbar } from 'react-bootstrap';
 import UsernameInput from '../components/UsernameInput';
 import Generator from '../components/Generator';
 
-const OmcURL = (name: string) => `https://onlinemathcontest.com/user/${name}`;
+const OmcURL = (name: string) => `https://onlinemathcontest.com/users/${name}`;
 const shieldsioLink = (url: string) => `https://img.shields.io/endpoint?url=${encodeURIComponent(url)}`;
 
 export default function() {
