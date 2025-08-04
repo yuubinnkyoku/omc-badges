@@ -30,7 +30,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         res.setHeader('Cache-Control', 's-maxage=3600, stale-while-revalidate');
         res.status(200).json({
             schemaVersion: 1,
-            label: 'OMC Rating',
+            label: 'OMC',
             message: message,
             color: color,
         });
@@ -38,7 +38,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         console.error(`[API] Error fetching rate for ${id}:`, error);
         res.status(500).json({
             schemaVersion: 1,
-            label: 'OMC Rating',
+            label: 'OMC',
             message: 'Error',
             color: '#808080',
         });
