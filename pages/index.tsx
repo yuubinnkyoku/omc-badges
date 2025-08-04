@@ -6,13 +6,10 @@ import UsernameInput from '../components/UsernameInput';
 import Generator from '../components/Generator';
 
 const OmcURL = (name: string) => `https://onlinemathcontest.com/users/${name}`;
-const shieldsioLink = (url: string, style: string, logo: string) => {
+const shieldsioLink = (url: string, style: string) => {
     let result = `https://img.shields.io/endpoint?url=${encodeURIComponent(url)}`;
     if (style) {
         result += `&style=${style}`;
-    }
-    if (logo) {
-        result += `&logo=${encodeURIComponent(logo)}`;
     }
     return result;
 };
@@ -20,8 +17,6 @@ const shieldsioLink = (url: string, style: string, logo: string) => {
 export default function() {
     const [username, setUsername] = useState('simasima');
     const [style, setStyle] = useState('flat');
-    const [logo, setLogo] = useState(true);
-    const [logoData, setLogoData] = useState('');
     const [apiOrigin, setApiOrigin] = useState('');
     const [isLoading, setIsLoading] = useState(true);
 
@@ -29,15 +24,6 @@ export default function() {
         if (window) {
             setApiOrigin(window.location.origin);
         }
-        fetch('https://onlinemathcontest.com/assets/images/logo/OnlineMathContestLogo.JPG')
-            .then(res => res.blob())
-            .then(blob => new Promise((resolve, reject) => {
-                const reader = new FileReader();
-                reader.onloadend = () => resolve(reader.result as string);
-                reader.onerror = reject;
-                reader.readAsDataURL(blob);
-            }))
-            .then(data => setLogoData(data as string));
     }, []);
 
     const dataLink = (type: string, name: string) => {
@@ -88,9 +74,6 @@ export default function() {
                         <option value="social">social</option>
                     </Form.Control>
                 </Form.Group>
-                <Form.Group>
-                    <Form.Check type="checkbox" label="Logo" checked={logo} onChange={e => setLogo(e.target.checked)} />
-                </Form.Group>
                 <hr />
                 {apiOrigin && (
                     <>
@@ -98,7 +81,7 @@ export default function() {
                             title="OMC"
                             tip={username}
                             link={OmcURL(username)}
-                            badge={shieldsioLink(dataLink('omc', username), style, logo ? logoData : '')}
+                            badge={shieldsioLink(dataLink('omc', username), style)}
                             isLoading={isLoading}
                             onBadgeLoad={onBadgeLoad}
                         />
