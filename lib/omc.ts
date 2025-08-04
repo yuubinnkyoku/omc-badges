@@ -20,7 +20,7 @@ const fetchHTML = async (url: string) => {
 
 export const fetchOmcRate = async (id: string): Promise<number | null> => {
   try {
-    const url = `https://onlinemathcontest.com/user/${id}`;
+    const url = `https://onlinemathcontest.com/users/${id}`;
     const html = await fetchHTML(url);
 
     if (!html) {
