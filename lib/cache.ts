@@ -1,11 +1,7 @@
 import { getUserCache, registerUserCache, updateUserCache } from './db';
-import { fetchAtCoderRate } from './atcoder';
-import { fetchCodeforcesRate } from './codeforces';
 import { fetchOmcRate } from './omc';
 
 export interface Rate {
-    atcoder: number | null,
-    codeforces: number | null,
     omc: number | null,
 }
 
@@ -22,11 +18,9 @@ function needUpdate(timestamp: string) {
 }
 
 async function fetchUserRate(name: string): Promise<Rate | null> {
-    let atcoder = await fetchAtCoderRate(name);
-    let codeforces = await fetchCodeforcesRate(name);
     let omc = await fetchOmcRate(name);
-    if(atcoder === null && codeforces === null && omc === null) return null;
-    return { atcoder, codeforces, omc };
+    if(omc === null) return null;
+    return { omc };
 }
 
 export async function getUserRateWithCache(name: string): Promise<Rate | null> {
@@ -34,18 +28,16 @@ export async function getUserRateWithCache(name: string): Promise<Rate | null> {
     if(cache.user === null) {
         let rate = await fetchUserRate(name);
         if(rate === null) return null;
-        await registerUserCache(name, rate.atcoder, rate.codeforces, rate.omc);
+        await registerUserCache(name, rate.omc);
         return rate;
     } else {
         if(needUpdate(cache.user.timestamp)) {
             let rate = await fetchUserRate(name);
             if(rate !== null) {
-                cache.user.atcoderRate = rate.atcoder;
-                cache.user.codeforcesRate = rate.codeforces;
                 cache.user.omcRate = rate.omc;
                 await updateUserCache(cache.user);
             }
         }
-        return { atcoder: cache.user.atcoderRate, codeforces: cache.user.codeforcesRate, omc: cache.user.omcRate };
+        return { omc: cache.user.omcRate };
     }
 }

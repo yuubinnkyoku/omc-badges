@@ -5,8 +5,6 @@ import { Container, Navbar } from 'react-bootstrap';
 import UsernameInput from '../components/UsernameInput';
 import Generator from '../components/Generator';
 
-const AtCoderURL = (name: string) => `https://atcoder.jp/users/${name}`;
-const CodeforcesURL = (name: string) => `https://codeforces.com/profile/${name}`;
 const OmcURL = (name: string) => `https://onlinemathcontest.com/user/${name}`;
 const shieldsioLink = (url: string) => `https://img.shields.io/endpoint?url=${encodeURIComponent(url)}`;
 
@@ -26,16 +24,16 @@ export default function() {
     return (
         <>
             <Head>
-                <title>AtCoder/Codeforces/OMC Badges</title>
-                <meta name="description" content="AtCoder、Codeforces、OMCのレートを表示するバッジを生成します。" />
+                <title>OMC Badges</title>
+                <meta name="description" content="OMCのレートを表示するバッジを生成します。" />
             </Head>
             <Navbar bg="dark" variant="dark">
-                <Navbar.Brand>AtCoder/Codeforces/OMC Badges</Navbar.Brand>
+                <Navbar.Brand>OMC Badges</Navbar.Brand>
             </Navbar>
             <Container>
-                <h1 className="mt-4">AtCoder/Codeforces/OMC Badges</h1>
+                <h1 className="mt-4">OMC Badges</h1>
                 <p>
-                    このサイトはAtCoder、Codeforces、OMCのレートを表示するバッジを生成します。
+                    このサイトはOMCのレートを表示するバッジを生成します。
                 </p>
                 <p>
                     このサイトのGitHubリポジトリ: <a href="https://github.com/yuubinnkyoku/omc-badges" target="_blank" rel="noopener noreferrer">https://github.com/yuubinnkyoku/omc-badges</a>
@@ -46,8 +44,6 @@ export default function() {
                 <hr />
                 {apiOrigin && (
                     <>
-                        <Generator title="AtCoder" tip={username} link={AtCoderURL(username)} badge={shieldsioLink(dataLink('atcoder', username))} />
-                        <Generator title="Codeforces" tip={username} link={CodeforcesURL(username)} badge={shieldsioLink(dataLink('codeforces', username))} />
                         <Generator title="OMC" tip={username} link={OmcURL(username)} badge={shieldsioLink(dataLink('omc', username))} />
                     </>
                 )}

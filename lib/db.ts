@@ -3,8 +3,6 @@ import { Redis } from '@upstash/redis';
 export interface UserCache {
     _id: string,
     name: string,
-    atcoderRate: number | null,
-    codeforcesRate: number | null,
     omcRate: number | null,
     timestamp: string,
 }
@@ -23,12 +21,10 @@ export async function getUserCache(name: string): Promise<DBRecord> {
 }
 
 // ユーザー名をキーとしてキャッシュを保存（登録）
-export async function registerUserCache(name: string, atcoderRate: number | null, codeforcesRate: number | null, omcRate: number | null) {
+export async function registerUserCache(name: string, omcRate: number | null) {
     const userCache: UserCache = {
         _id: name,
         name,
-        atcoderRate,
-        codeforcesRate,
         omcRate,
         timestamp: new Date().toISOString(),
     };
