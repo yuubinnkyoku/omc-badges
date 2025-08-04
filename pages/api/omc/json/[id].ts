@@ -2,13 +2,15 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { getUserRateWithCache } from '../../../../lib/cache';
 
 const getRatingColor = (rate: number | null): string => {
-    if (rate === null) return 'lightgrey';
-    if (rate >= 2000) return 'red';
-    if (rate >= 1600) return 'orange';
-    if (rate >= 1200) return 'yellow';
-    if (rate >= 800) return 'green';
-    if (rate >= 400) return 'cyan';
-    return 'grey';
+    if (rate === null) return '#808080';
+    if (rate >= 2800) return '#FF0000';
+    if (rate >= 2400) return '#FF8000';
+    if (rate >= 2000) return '#C0C000';
+    if (rate >= 1600) return '#0000FF';
+    if (rate >= 1200) return '#00C0C0';
+    if (rate >= 800)  return '#008000';
+    if (rate >= 400)  return '#804000';
+    return '#808080';
 };
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
@@ -43,7 +45,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             schemaVersion: 1,
             label: 'OMC Rating',
             message: 'Error',
-            color: 'lightgrey',
+            color: '#808080',
         });
     }
 };
