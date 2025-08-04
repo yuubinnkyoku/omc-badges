@@ -15,24 +15,19 @@ const getRatingColor = (rate: number | null): string => {
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
     const { id } = req.query;
-    console.log(`[API] Received request for id: ${id}`);
 
     if (typeof id !== 'string') {
-        console.error('[API] Invalid user ID type.');
         res.status(400).json({ error: 'Invalid user ID' });
         return;
     }
 
     try {
-        console.log(`[API] Fetching OMC rate for ${id}...`);
         const rateResult = await getUserRateWithCache(id);
         const rate = rateResult ? rateResult.omc : null;
-        console.log(`[API] Fetched OMC rate for ${id}: ${rate}`);
         const color = getRatingColor(rate);
         const message = rate !== null ? String(rate) : 'N/A';
 
         res.setHeader('Cache-Control', 's-maxage=3600, stale-while-revalidate');
-        console.log(`[API] Responding with: { message: ${message}, color: ${color} }`);
         res.status(200).json({
             schemaVersion: 1,
             label: 'OMC Rating',
