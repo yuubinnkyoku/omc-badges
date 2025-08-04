@@ -16,13 +16,10 @@ export default function Generator(props: GeneratorProps) {
                 <CopyField title="HTML" value={`<a href="${props.link}" target="_blank" title="${props.tip}"><img src="${props.badge}" /></a>`} />
                 <CopyField title="Markdown" value={`[![${props.tip}](${props.badge})](${props.link})`} />
                 <h3>Preview</h3>
-                {props.isLoading ? (
-                    <p>読み込み中...</p>
-                ) : (
-                    <a href={props.link} target="_blank" title={props.tip} rel="noreferrer">
-                        <img src={props.badge} alt={`${props.title} badge`} onLoad={props.onBadgeLoad} onError={props.onBadgeLoad} />
-                    </a>
-                )}
+                {props.isLoading && <p>読み込み中...</p>}
+                <a href={props.link} target="_blank" title={props.tip} rel="noreferrer" style={{ display: props.isLoading ? 'none' : 'block' }}>
+                    <img src={props.badge} alt={`${props.title} badge`} onLoad={props.onBadgeLoad} onError={props.onBadgeLoad} />
+                </a>
             </div>
         </>
     );
