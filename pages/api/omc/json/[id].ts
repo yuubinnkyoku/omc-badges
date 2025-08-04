@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { fetchOmcRate } from '../../../../lib/omc';
+import { getUserRateWithCache } from '../../../../lib/cache';
 
 const getRatingColor = (rate: number | null): string => {
     if (rate === null) return 'lightgrey';
@@ -23,7 +23,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     try {
         console.log(`[API] Fetching OMC rate for ${id}...`);
-        const rate = await fetchOmcRate(id);
+        const rateResult = await getUserRateWithCache(id);
+        const rate = rateResult ? rateResult.omc : null;
         console.log(`[API] Fetched OMC rate for ${id}: ${rate}`);
         const color = getRatingColor(rate);
         const message = rate !== null ? String(rate) : 'N/A';
