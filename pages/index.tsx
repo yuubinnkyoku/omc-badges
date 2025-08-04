@@ -1,15 +1,22 @@
 import { useState, useCallback, useEffect } from 'react';
-import Head from 'next/head';
-import { Container, Navbar } from 'react-bootstrap';
+import Head from 'next/head'
+import { Container, Navbar, Form } from 'react-bootstrap';
 
 import UsernameInput from '../components/UsernameInput';
 import Generator from '../components/Generator';
 
 const OmcURL = (name: string) => `https://onlinemathcontest.com/users/${name}`;
-const shieldsioLink = (url: string) => `https://img.shields.io/endpoint?url=${encodeURIComponent(url)}`;
+const shieldsioLink = (url: string, style: string) => {
+    let result = `https://img.shields.io/endpoint?url=${encodeURIComponent(url)}`;
+    if (style) {
+        result += `&style=${style}`;
+    }
+    return result;
+};
 
 export default function() {
     const [username, setUsername] = useState('simasima');
+    const [style, setStyle] = useState('');
     const [apiOrigin, setApiOrigin] = useState('');
     const [isLoading, setIsLoading] = useState(true);
 
@@ -22,7 +29,7 @@ export default function() {
     const dataLink = (type: string, name: string) => {
         const url = new URL(apiOrigin + `/api/${type}/json/${name}`);
         if (url.protocol === 'http:') {
-            url.protocol = 'https:';
+            url.protocol = 'https';
         }
         return url.toString();
     };
@@ -57,6 +64,17 @@ export default function() {
                     このサイトは <a href="https://atcoder-badges.vercel.app/" target="_blank" rel="noopener noreferrer">AtCoder Badges</a> (<a href="https://github.com/makutamoto/atcoder-badges" target="_blank" rel="noopener noreferrer">makutamoto/atcoder-badges</a>) をフォークして作成しました。
                 </p>
                 <UsernameInput onSubmit={onSubmit} />
+                <Form.Group>
+                    <Form.Label>Style</Form.Label>
+                    <Form.Control as="select" value={style} onChange={e => setStyle(e.target.value)}>
+                        <option value="">default</option>
+                        <option value="flat">flat</option>
+                        <option value="flat-square">flat-square</option>
+                        <option value="plastic">plastic</option>
+                        <option value="for-the-badge">for-the-badge</option>
+                        <option value="social">social</option>
+                    </Form.Control>
+                </Form.Group>
                 <hr />
                 {apiOrigin && (
                     <>
@@ -64,7 +82,7 @@ export default function() {
                             title="OMC"
                             tip={username}
                             link={OmcURL(username)}
-                            badge={shieldsioLink(dataLink('omc', username))}
+                            badge={shieldsioLink(dataLink('omc', username), style)}
                             isLoading={isLoading}
                             onBadgeLoad={onBadgeLoad}
                         />
