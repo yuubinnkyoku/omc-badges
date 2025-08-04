@@ -50,6 +50,8 @@ export default function() {
                     このサイトはOMCのレートを表示するバッジを生成します。
                 </p>
                 <p>
+                    このサイトは <a href="https://atcoder-badges.vercel.app/" target="_blank" rel="noopener noreferrer">AtCoder Badges</a> (<a href="https://github.com/makutamoto/atcoder-badges" target="_blank" rel="noopener noreferrer">makutamoto/atcoder-badges</a>) をフォークして作成しました。
+                    <br />
                     このサイトのGitHubリポジトリ: <a href="https://github.com/yuubinnkyoku/omc-badges" target="_blank" rel="noopener noreferrer">https://github.com/yuubinnkyoku/omc-badges</a>
                     <br />
                     作者: <a href="https://github.com/yuubinnkyoku" target="_blank" rel="noopener noreferrer">yuubinnkyoku</a>
